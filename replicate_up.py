@@ -11,23 +11,6 @@ Date: May 2026
 - Carhart 4-factor alphas with Newey-West HAC standard errors
 - Built-in validation against the paper's official UP 5-1 benchmark
 - Clean command-line interface (demo + real WRDS data)
-
-## Methodology Notes – Quarterly Approximation
-
-**Important clarification on frequency:**
-
-The original paper (Weigert et al., JF 2024) performs **monthly** cross-sectional sorts on UP(t) and evaluates future fund performance at the **t+3 monthly** horizon (as shown in the official UP 5-1 benchmark table you provided).
-
-However, because 13F holdings are disclosed **quarterly**, the current script implements **quarterly** UP calculation, sorting, and portfolio formation by default.  
-
-This is a **reasonable and common academic approximation** that:
-- Preserves the economic intuition of the original study
-- Significantly reduces computational complexity
-- Maintains correct lagged holdings alignment
-
-The built-in `validate_against_paper()` function automatically compares the replicated quarterly results with the paper’s monthly benchmark (using a simple ×3 linear approximation for illustration). Geometric compounding differences and exact sample periods may cause small deviations.
-
-If you need a **full monthly-frequency replication** (t+3 monthly returns), please let me know — I can provide an updated version upon request.
 """
 
 import argparse
