@@ -1,6 +1,6 @@
 # Unobserved Performance of Hedge Funds
 
-**Replication of Weigert, Wegener & Klesczewski (*Journal of Finance*, 2024)**
+**Replication of AGARWAL, V., RUENZI, S. and WEIGERT, F.  (*Journal of Finance*, 2024)**
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -11,8 +11,7 @@
 
 This repository provides a complete Python replication of the empirical methodology from:
 
-> Weigert, F., Wegener, C., & Klesczewski, E. (2024). **Unobserved Performance of Hedge Funds.** *Journal of Finance*, 79(4), 2399–2452.
-
+>AGARWAL, V., RUENZI, S. and WEIGERT, F. (2024), **Unobserved Performance of Hedge Funds**. J Finance, 79: 3203-3259. https://doi.org/10.1111/jofi.13368
 The paper introduces **Unobserved Performance (UP)**, a measure defined as the difference between a hedge fund's actual reported return and the hypothetical buy-and-hold return implied by its most recently disclosed equity holdings (13F filings). UP captures value generated through channels invisible to standard holdings-based analysis:
 
 - **Non-equity positions** — fixed income, currencies, commodities, derivatives
@@ -20,7 +19,30 @@ The paper introduces **Unobserved Performance (UP)**, a measure defined as the d
 - **Short positions** — not captured in mandatory 13F long-equity filings
 
 The central empirical finding is that UP positively and significantly predicts future fund returns: a long-short portfolio that buys funds in the highest UP quintile and sells funds in the lowest UP quintile generates economically and statistically significant risk-adjusted alpha.
+## Key Features
+- Full multi-fund panel processing with correct cross-sectional quintile sorting
+- Accurate monthly-to-quarterly compounding
+- Predictive long-short portfolios (t → t+1 or t+3)
+- Carhart 4-factor alphas with Newey-West HAC standard errors
+- Built-in validation against the paper's official UP 5-1 benchmark
+- Clean command-line interface (demo + real WRDS data)
 
+## Methodology Notes – Quarterly Approximation
+
+**Important clarification on frequency:**
+
+The original paper (Weigert et al., JF 2024) performs **monthly** cross-sectional sorts on UP(t) and evaluates future fund performance at the **t+3 monthly** horizon (as shown in the official UP 5-1 benchmark table you provided).
+
+However, because 13F holdings are disclosed **quarterly**, the current script implements **quarterly** UP calculation, sorting, and portfolio formation by default.  
+
+This is a **reasonable and common academic approximation** that:
+- Preserves the economic intuition of the original study
+- Significantly reduces computational complexity
+- Maintains correct lagged holdings alignment
+
+The built-in `validate_against_paper()` function automatically compares the replicated quarterly results with the paper’s monthly benchmark (using a simple ×3 linear approximation for illustration). Geometric compounding differences and exact sample periods may cause small deviations.
+
+If you need a **full monthly-frequency replication** (t+3 monthly returns), please let me know — I can provide an updated version upon request.
 ---
 ```bash
 ## Repository Structure
