@@ -833,7 +833,18 @@ def validate_against_paper(csv_path, quintile_df=None, freq='quarterly'):
     print(f"  VALIDATION: Published Results from Agarwal et al. (JF 2024)")
     print(f"  Replication frequency: {config['label']}")
     print(f"  {'═'*65}")
-
+     
+  # Support both CSV and Excel files
+    if csv_path.endswith(('.xls', '.xlsx')):
+        df = pd.read_excel(csv_path, skiprows=1)
+    else:
+        df = pd.read_csv(csv_path, skiprows=1)
+    df.columns = ["Year", "Month", "PF1", "PF2", "PF3", "PF4", "PF5", "LS"]
+    df["Year"] = df["Year"].astype(int)
+    df["Month"] = df["Month"].astype(int)
+    df["date"] = pd.to_datetime(
+        df["Year"].astype(str) + "-" + df["Month"].astype(str) + "-01"
+    ) + pd.offsets.MonthEnd(0)
     df = pd.read_csv(csv_path, skiprows=1)
     df.columns = ["Year", "Month", "PF1", "PF2", "PF3", "PF4", "PF5", "LS"]
     df["Year"] = df["Year"].astype(int)
