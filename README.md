@@ -62,7 +62,7 @@ This mode compounds monthly returns to quarterly frequency before computing UP, 
 The built-in `validate_against_paper()` function automatically handles the comparison: in monthly mode it compares directly against the paper's monthly benchmark; in quarterly mode it uses a ×3 linear approximation for illustration.
 
 ---
-
+```bash
 ## Repository Structure
 hedge-fund-up/
 ├── README.md # This file
@@ -80,7 +80,7 @@ hedge-fund-up/
 │ └── quintile_returns_quarterly.csv
 └── notebooks/
 └── analysis.ipynb # Optional exploratory notebook
----
+```
 
 ## Methodology
 
