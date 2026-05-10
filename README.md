@@ -70,7 +70,7 @@ hedge-fund-up/
 ├── requirements.txt # Python dependencies
 ├── replicate_up.py # Main replication script (v3.0)
 ├── data/
-│ ├── UP_5-1.csv # Published portfolio sort results (validation)
+│ ├─── UP 5-1 (1).xls  # Published portfolio sort results (validation)
 │ └── results/ # Output directory (auto-created)
 │ ├── up_panel_monthly.csv
 │ ├── up_panel_quarterly.csv
@@ -138,9 +138,31 @@ Individual Carhart 4-factor alphas are estimated for each quintile portfolio to 
 ### Stage 7 — UP Persistence (Fama-MacBeth)
 
 Fama-MacBeth cross-sectional regressions test whether UP(*t−1*) predicts UP(*t*), providing evidence on whether unobserved performance reflects persistent managerial skill.
+```bash
+# DEMO——Quarterly mode (default) — fast, good for testing
+python replicate_up.py --demo --freq quarterly
 
+# Monthly mode — matches the paper's specification
+python replicate_up.py --demo --freq monthly --horizon 3
+
+# Monthly with validation against published results
+python replicate_up.py --demo --freq monthly --horizon 3 --validate data/UP_5-1.xls
 ---
+# DEMO——Monthly frequency replicating the paper's t+3 specification with Real WRDS Data
+python replicate_up.py --freq monthly --horizon 3 \
+    --fund-returns data/fund_returns.csv \
+    --holdings data/holdings.csv \
+    --stock-returns data/stock_returns.csv \
+    --factors data/factors.csv \
+    --validate data/UP_5-1.xls
 
+# Quarterly approximation
+python replicate_up.py --freq quarterly --horizon 1 \
+    --fund-returns data/fund_returns.csv \
+    --holdings data/holdings.csv \
+    --stock-returns data/stock_returns.csv \
+    --factors data/factors.csv \
+    --validate data/UP_5-1.xls
 ## Installation
 
 ### Requirements
@@ -153,7 +175,7 @@ Fama-MacBeth cross-sectional regressions test whether UP(*t−1*) predicts UP(*t
 ### Setup
 
 ```bash
-git clone https://github.com/your-username/hedge-fund-up.git
+git clone https://github.com/scauzjcwutao-blip/hedge-fund-up.git
 cd hedge-fund-up
 pip install -r requirements.txt
 # Quarterly mode (default) — fast, good for testing
